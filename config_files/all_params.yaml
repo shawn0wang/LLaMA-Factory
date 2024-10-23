@@ -1,0 +1,535 @@
+# DataArguments
+# str:在训练和推理中使用哪个模板来构建提示
+template: none
+# str:用于训练的数据集的名称。使用逗号分隔多个数据集
+dataset: none
+# str:用于评估的数据集的名称。使用逗号分隔多个数据集
+eval_dataset: none
+# 包含数据集的文件夹的路径，默认data目录
+dataset_dir: data
+# 数据集中标记化输入的截止长度
+cutoff_len: 1024
+# 是否禁用提示上的掩码
+train_on_prompt: false
+# 是否掩盖历史记录并仅在最后一轮进行训练
+mask_history: false
+# 启用数据集流式传输
+streaming: false
+# 在数据集流中随机抽样示例的缓冲区的大小
+buffer_size: 16384
+# 数据集混合（连接/交错）（欠采样/过采样）中使用的策略 ["concat", "interleave_under", "interleave_over"]
+mix_strategy: concat
+# str:从数据集中抽样数据的概率。使用逗号分隔多个数据集
+interleave_probs: none
+# 覆盖缓存的训练和评估集
+overwrite_cache: false
+# 预处理中一组中的示例数量
+preprocessing_batch_size: 1000
+# int:于预处理的进程数
+preprocessing_num_workers: none
+# int:为了调试目的，截断每个数据集的示例数量
+max_samples: none
+# int:用于评估的beam数量。此参数将传递给“model.generate”
+eval_num_beams: none
+# 是否在损失计算中忽略与 pad 标签相对应的标记
+ignore_pad_token_for_loss: true
+# 验证集的大小，应该是范围在 `[0,1)` 内的整数或浮点数
+val_size: 0.0
+# bool:在训练中启用序列打包。将在预训练中自动启用
+packing: none
+# 启用无需交叉注意的序列打包
+neat_packing: false
+# str:用于构建 func call 示例的工具格式(agent)
+tool_format: none
+# str:保存或加载 tokenized dataset 的路径
+tokenized_path: none
+
+# ModelArguments
+# str:来自 huggingface.co/models 或 modelscope.cn/models 的模型权重或标识符的路径
+model_name_or_path: none
+# str:huggingface.co/models 中适配器重量或标识符的路径。使用逗号分隔多个适配器
+adapter_name_or_path: none
+# str:包含要加载的适配器权重的文件夹
+adapter_folder: none
+# 从 huggingface.co 或 modelscope.cn 下载的预训练模型的存储位置
+cache_dir: none
+# 是否使用快速标记器之一（由标记器库支持）
+use_fast_tokenizer: true
+# 是否调整标记器词汇表和嵌入层的大小
+resize_vocab: false
+# 在标记化过程中是否应拆分特殊标记
+split_special_tokens: false
+# str:要添加到标记器中的特殊标记。使用逗号分隔多个标记
+new_special_tokens: none
+# 要使用的特定模型版本（可以是分支名称、标签名称或提交 ID）
+model_revision: main
+# 是否使用内存高效的模型加载
+low_cpu_mem_usage: true
+# RoPE 嵌入应采用哪种缩放策略 ["linear", "dynamic"]
+rope_scaling: none
+# 启用 FlashAttention 以加快训练和推理速度 ["auto", "disabled", "sdpa", "fa2"]
+flash_attn: auto
+# 启用LongLoRA提出的转移短注意力（S^2-Attn）
+shift_attn: false
+# 将模型转换为深度混合（MoD）或加载 MoD 模型 ["convert", "load"]
+mixture_of_depths: none
+# 是否使用 unsloth 的优化进行 LoRA 训练
+use_unsloth: false
+# 是否使用 unsloth 的梯度检查点
+use_unsloth_gc: false
+# 是否启用liger kernel以加快训练速度
+enable_liger_kernel: false
+# float:混合专家模型中辅助路由器损失的系数
+moe_aux_loss_coef: none
+# 是否禁用梯度检查点
+disable_gradient_checkpointing: false
+# 是否在 fp32 中上调 layernorm 权重
+upcast_layernorm: false
+# 是否在 fp32 中上转 lm_head 的输出
+upcast_lmhead_output: false
+# 是否随机初始化模型权重
+train_from_scratch: false
+# 推理时使用的后端引擎["huggingface", "vllm"]
+infer_backend: huggingface
+# str:卸载模型权重的路径
+offload_folder: none
+# 是否在生成中使用KV缓存
+use_cache: true 
+# 推理时模型权重和激活的数据类型["auto", "float16", "bfloat16", "float32"]
+infer_dtype: auto
+# str:使用 Hugging Face Hub 登录的身份验证令牌
+hf_hub_token: none
+# str:使用 ModelScope Hub 登录的身份验证令牌
+ms_hub_token: none
+# str:使用 Modelers Hub 登录的身份验证令牌
+om_hub_token: none
+# 出于调试目的，打印模型中参数的状态
+print_param_status: false
+
+# TrainingArguments
+# str:将写入模型预测和检查点的输出目录
+output_dir: none
+# 覆盖输出目录的内容。如果 output_dir 指向检查点目录，则使用此项继续训练
+overwrite_output_dir: false
+# 是否训练
+do_train: false
+# 是否验证
+do_eval: false
+# 是否测试
+do_predict: false
+# 要使用的评估策略 no,steps,epoch
+eval_strategy: steps
+# 在进行评估和预测时，仅返回损失
+prediction_loss_only: false
+# batch_size
+per_device_train_batch_size: 8
+# eval batch_size
+per_device_eval_batch_size: 8
+# 执行后向/更新传递之前要累积的更新步骤数
+gradient_accumulation_steps: 1
+# 将张量移至 CPU 之前要累积的预测步骤数。
+eval_accumulation_steps: 1
+# int:调用 `torch.<device>.empty_cache()` 之前要等待的步骤数。这可以通过降低峰值 VRAM 使用率来帮助避免 CUDA 内存不足错误，
+# 但代价是 [性能降低 10%](https://github.com/huggingface/transformers/issues/31372)。如果未设置或设置为 None，则不会清空缓存
+torch_empty_cache_steps: none
+# AdamW 的初始学习率
+learning_rate: 5e-5
+# 如果我们应用一些的话，AdamW 的权重会衰减
+weight_decay: 0.0
+# AdamW optimizer
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_epsilon: 1e-8
+# 最大梯度范数
+max_grad_norm: 1
+# epoch
+num_train_epochs: 3
+# 如果 > 0：设置要执行的训练步骤总数。覆盖 num_train_epochs
+max_steps: 0
+#  [linear, cosine, cosine_with_restarts, polynomial, constant, constant_with_warmup, inverse_sqrt, reduce_lr_on_plateau, cosine_with_min_lr, warmup_stable_decay]
+lr_scheduler_type: cosine
+# dict:lr_scheduler 的额外参数，例如 {'num_cycles': 1}，用于硬重启的余弦
+lr_scheduler_kwargs: none
+# 总步骤数的 warmup_ratio 部分的线性预热
+warmup_ratio: 0.0
+# 通过 warmup_steps 进行线性预热
+warmup_steps: 0
+# 主节点上使用的记录器日志级别。可能的选择是字符串形式的日志级别：‘debug’，‘​​info’，‘warning’，‘error’和‘critical’，以及不设置任何内容的‘passive’级别，并让应用程序设置级别。默认为‘passive’
+log_level: passive
+# 在副本节点上使用的记录器日志级别。与“log_level”相同的选择/默认值
+log_level_replica: warning
+# 进行多节点分布式训练时，是否每个节点记录一次还是仅在主节点上记录一次
+log_on_each_node: true
+# str:Tensorboard 日志目录
+logging_dir: none
+# 要使用的日志记录策略 no,steps,epoch
+logging_strategy: steps
+# 记录第一个 global_step
+logging_first_step: false
+# 记录每 X 个更新步骤。应为 `[0,1)` 范围内的整数或浮点数。如果小于 1，则将被解释为总训练步骤的比例
+logging_steps: 500
+# 过滤用于记录的 nan 和 inf 损失
+logging_nan_inf_filter: true
+# 要使用的检查点保存策略 no,steps,epoch
+save_strategy: steps
+# 检查点保存步
+save_steps: 500
+# int:如果传递了一个值，将限制检查点的总数。删除 `output_dir` 中较旧的检查点。启用 `load_best_model_at_end` 时，除了最新的检查点外，还将始终保留根据 `metric_for_best_model` 的“最佳”检查点。
+# 例如，对于 `save_total_limit=5` 和 `load_best_model_at_end=True`，将始终保留最后四个检查点以及最佳模型。当 `save_total_limit=1` 和 `load_best_model_at_end=True` 时，
+# 可能会保存两个检查点：最后一个和最佳检查点（如果它们不同）。默认为无限制检查点"
+save_total_limit: none
+# 使用 safetensors 保存和加载状态字典，而不是默认的 torch.load 和 torch.save
+save_safetensors: true
+# 进行多节点分布式训练时，是否在每个节点上保存模型和检查点，还是仅在主节点上保存
+save_on_each_node: false
+# “检查点时，是否仅保存模型，还是同时保存优化器、调度程序和 rng 状态。请注意，如果为真，您将无法从检查点恢复训练。
+# 这使您能够通过不存储优化器、调度程序和 rng 状态来节省存储空间。您只能使用 from_pretrained 将此选项设置为 True 来加载模型。”
+save_only_model: false
+# 是否使用 cpu
+use_cpu: false
+# 随即种子数
+seed: 42
+# int:与数据采样器一起使用的随机种子
+data_seed: none
+# 是否使用 PyTorch jit trace 进行推理
+jit_mode_eval: false
+# 是否使用 bf16（混合）精度而不是 32 位。需要 Ampere 或更高版本的 NVIDIA 架构或使用 CPU（use_cpu）或 Ascend NPU。这是一个实验性的 API，可能会发生变化。
+bf16: false
+# 是否使用 fp16（混合）精度而不是 32 位
+fp16: false
+# 对于 fp16：在 ['O0'、'O1'、'O2' 和 'O3'] 中选择了 Apex AMP 优化级别。详情请参阅 https://nvidia.github.io/apex/amp.html
+fp16_opt_level: O1
+# 用于半精度的后端["auto", "apex", "cpu_amp"]
+half_precision_backend: auto
+# 是否使用完整的 bfloat16 评估而不是 32 位评估。这是一个实验性的 API，它可能会改变
+bf16_full_eval: false
+# 是否使用完整的 fp16 评估而不是 32 位评估。这是一个实验性的 API，它可能会改变
+fp16_full_eval: false
+# 对于分布式训练：local_rank
+local_rank: -1
+# 用于分布式训练的后端["nccl", "gloo", "mpi", "ccl", "hccl", "cncl"]
+ddp_backend: none
+# 如果最后一个不完整的批次不能被批次大小整除，则删除它
+dataloader_drop_last: false
+# 每 X 步运行一次评估。应为 `[0,1)` 范围内的整数或浮点数。如果小于 1，则将被解释为总训练步骤的比例。
+eval_steps: none
+# 用于数据加载的子进程数（仅限 PyTorch）。0 表示将在主进程中加载​​数据
+dataloader_num_workers: 0
+# int:每个 worker 提前加载的批次数。2 表示所有 worker 中将预取总共 2 * num_workers 个批次。对于 PyTorch < 2.0.0，默认值为 2，否则为 None
+dataloader_prefetch_factor: none
+# 如果 >=0，则使用输出的相应部分作为下一步的过去状态。
+past_index: -1
+# str:运行的可选描述符。特别用于 wandb、mlflow 和 comet 日志记录
+run_name: none
+# bool:是否禁用 tqdm 进度条
+disable_tqdm: none
+# 使用 nlp.Dataset 时删除模型不需要的列
+remove_unused_columns: true
+# list[str]:输入字典中与标签对应的键列表
+label_names: none
+# 保存最好 ckpt
+load_best_model_at_end: false
+# str:用于比较两个不同模型的指标
+metric_for_best_model: none
+# bool:是否应该最大化“metric_for_best_model”。
+greater_is_better: none
+# 恢复训练时，是否跳过第一个周期和批次以获得相同的训练数据
+ignore_data_skip: false
+# str:是否使用 PyTorch 完全分片数据并行 (FSDP) 训练（仅限分布式训练）。基本选项应为 `full_shard`、`shard_grad_op` 或 `no_shard`，
+# 并且您可以像这样将 CPU 卸载添加到 `full_shard` 或 `shard_grad_op`：full_shard offload` 或 `shard_grad_op"offload`。您可以使用相同的语法将自动包装添加到 
+# `full_shard` 或 `shard_grad_op`：full_shard"auto_wrap` 或 `shard_grad_op auto_wrap`。
+fsdp: ""
+# dict:fsdp配置参数
+fsdp_config: none
+# dict:与内部加速器对象初始化一起使用的配置。该值可以是加速器 JSON 配置文件（例如 `accelerator_config.json`），也可以是已加载的 JSON 文件（作为 `dict`）
+accelerator_config: none
+# 启用 deepspeed 并将路径传递给 deepspeed json 配置文件（例如 `ds_config.json`）或已加载的 json 文件作为字典
+deepspeed: none
+# 要应用的标签平滑 epsilon（零表示无标签平滑）
+label_smoothing_factor: 0.0
+# 要使用的优化器。[adamw_hf,adamw_torch,adamw_torch_fused,adamw_torch_xla,adamw_torch_npu_fused,adamw_apex_fused,adafactor,adamw_anyprecision,sgd,adagrad,adamw_bnb_8bit,adamw_8bit
+# lion_8bit,lion_32bit,paged_adamw_32bit,paged_adamw_8bit,paged_lion_32bit,paged_lion_8bit,rmsprop,rmsprop_bnb,rmsprop_bnb_8bit,rmsprop_bnb_32bit,galore_adamw
+# galore_adamw_8bit,galore_adafactor,galore_adamw_layerwise,galore_adamw_8bit_layerwise,galore_adafactor_layerwise,lomo,adalomo]
+optim: adamw_torch
+# str:提供给优化器的可选参数
+optim_args: none
+# 批处理时是否将长度大致相同的样本分组在一起。
+group_by_length: false
+# 按长度分组时使用的具有预先计算长度的列名称
+length_column_name: length
+# str/list[str]:报告结果和日志的集成列表。
+report_to: none
+# bool:使用分布式训练时，标志‘find_unused_pa​​rameters’的值传递给`DistributedDataParallel`。
+ddp_find_unused_parameters: none
+# 使用分布式训练时，标志‘bucket_cap_mb’的值传递给DistributedDataParallel。
+ddp_bucket_cap_mb: none
+# 使用分布式训练时，标志‘ddp_broadcast_buffers’的值传递给DistributedDataParallel。
+ddp_broadcast_buffers
+# 是否为 DataLoader 固定内存。
+dataloader_pin_memory: true
+# 如果为 True，则数据加载器在数据集被使用一次后不会关闭工作进程。这允许保持工作数据集实例处于活动状态。可以加快训练速度，但会增加 RAM 使用量。
+dataloader_persistent_workers: false
+# 是否跳过将内存分析器报告添加到指标中。
+skip_memory_metrics: true
+# 是否在训练器中使用传统的prediction_loop
+use_legacy_prediction_loop: false
+# 训练完成后是否将训练好的模型上传至模型中心。
+push_to_hub: false
+# str:包含模型有效检查点的文件夹的路径。
+resume_from_checkpoint: none
+# str:与本地‘output_dir’保持同步的存储库名称
+hub_model_id: none
+# str:当“--push_to_hub”激活时使用的中心策略。 [end,every_save,checkpoint,all_checkpoints]
+hub_strategy: every_save
+# str:用于推送到模型中心的令牌
+hub_token: none
+# 模型库是否是私有的
+hub_private_repo: false
+# 除非为“True”，否则如果前一个推送尚未完成，Trainer将跳过推送
+hub_always_push: false
+# 如果为真，则使用梯度检查点来节省内存，但代价是向后传递速度较慢
+gradient_checkpointing: false
+# dict:梯度检查点关键字参数，例如 `use_reentrant`。将通过 `model.gradient_checkpointing_enable` 传递给 `torch.utils.checkpoint.checkpoint`
+gradient_checkpointing_kwargs: none
+# 输入是否将被传递给“compute_metrics”函数。
+include_inputs_for_metrics: false
+# 是否以递归方式跨批次连接输入/损失/标签/预测。如果为“False”，则将它们存储为列表，并将每个批次分开保存。”
+eval_do_concat_batches: true
+# str:推送到的存储库的名称
+push_to_hub_model_id: none
+# str:推送组织的名称。
+push_to_hub_organization: none
+# str:推送token的名称。
+push_to_hub_token: none
+# '使用 Ray 进行超参数搜索时要使用的范围。默认情况下，将使用 `"last"`。Ray 然后将使用所有试验的最后一个检查点，
+# 比较这些试验，然后选择最佳试验。但是，还有其他选项可用。请参阅 Ray 文档"(https://docs.ray.io/en/latest/tune/api_docs/analysis.html"
+# ray.tune.ExperimentAnalysis.get_best_trial)了解更多选项。
+ray_scope: last
+# 覆盖分布式训练的默认超时时间（值应以秒为单位）
+ddp_timeout: 1800
+# 如果设置为‘True’，模型将被包装在‘torch.compile’中
+torch_compile: false
+# str:与“torch.compile”一起使用哪个后端，传递一个后端将触发模型编译。
+torch_compile_backend: none
+# str:使用‘torch.compile’的哪种模式，传递一个模式将触发模型编译。
+torch_compile_mode: none
+# 如果设置为‘True’，速度指标将包括‘tgs’（每台设备每秒的令牌数）
+include_tokens_per_second: false
+# 如果设置为“True”，将跟踪整个训练过程中看到的输入标记的数量。（在分布式训练中可能会更慢）
+include_num_input_tokens_seen: false
+# float:将 neftune 噪声嵌入激活到模型中。NEFTune 已被证明可以大幅提高模型在指令微调方面的性能。请在此处查看原始论文：https://arxiv.org/abs/2310.05914 和原始代码：https://github.com/neelsjain/NEFTune。仅支持“PreTrainedModel”和“PeftModel”类
+neftune_noise_alpha: none
+# 在 `optim` 参数中定义的优化器的目标模块。目前仅用于 GaLore 优化器。
+optim_target_modules: none
+# 将评估指标计算分成几批以节省内存
+batch_eval_metrics: false
+# 是否在训练开始时就进行整个‘评估’步骤作为健全性检查
+eval_on_start: false
+# 是否以递归方式运行以收集来自所有设备的嵌套列表/元组/对象字典中的对象
+eval_use_gather_object: false
+# 
+
+
+# QuantizationArguments
+# 用于动态量化的量化方法["bitsandbytes", "hqq", "eetq"]
+quantization_method: bitsandbytes
+# int:使用动态量化来量化模型的位数
+quantization_bit: none
+# 在 bitsandbytes int4 训练中使用的量化数据类型["fp4", "nf4"]
+quantization_type: nf4
+# 是否在 bitsandbytes int4 训练中使用双量化
+double_quantization: true
+# 用于推断4位量化模型的设备图，需要bitsandbytes>=0.43.0 [auto]
+quantization_device_map: none
+
+# ProcessorArguments
+# 保持图像的高度或宽度低于该分辨率
+image_resolution: 512
+# 保持视频的高度或宽度低于该分辨率
+video_resolution: 128
+# 视频输入每秒采样的帧数
+video_fps: 2.0
+# 视频输入的最大采样帧数
+video_maxlen: 64
+
+# ExportArguments
+# str:保存导出模型的目录路径
+export_dir: none
+# 导出模型的文件分片大小（以 GB 为单位）
+export_size: 1
+# 模型导出使用的设备，使用`auto`来加速导出 ["cpu", "auto"]
+export_device: cpu
+# int:量化导出模型的位数
+export_quantization_bit: none
+# str:用于量化导出模型的数据集路径或数据集名称
+export_quantization_dataset: none
+# 用于量化的样本数量
+export_quantization_nsamples: 128
+# 用于量化的模型输入的最大长度
+export_quantization_maxlen: 1024
+# 是否保存 `.bin` 文件而不是 `.safetensors`
+export_legacy_format: false
+# str:将模型推送至 Hugging Face 中心的存储库的名称
+export_hub_model_id: none
+
+# VllmArguments
+# vLLM 引擎的最大序列（提示 + 响应）长度
+vllm_maxlen: 2048
+# 用于 vLLM 引擎的 (0,1) 中的 GPU 内存比例
+vllm_gpu_util: 0.9
+# 是否在 vLLM 引擎中禁用 CUDA 图
+vllm_enforce_eager: false
+# vLLM 引擎中所有 LoRA 的最高排名
+vllm_max_lora_rank: 32
+
+# FinetuningArguments
+# 是否以纯 bf16 精度（不使用 AMP）训练模型
+pure_bf16: false
+# 训练中将进行哪个阶段 ["pt", "sft", "rm", "ppo", "dpo", "kto"]
+stage: sft
+# 使用哪种微调方法["lora", "freeze", "full"]
+finetuning_type: lora
+# 是否仅使扩展块中的参数可训练
+use_llama_pro: false
+# 是否使用 Adam-mini 优化器
+use_adam_mini: false
+# 在MLLM培训中是否冻结vision_tower
+freeze_vision_tower: true
+# Whether or not to train the multimodal projector for MLLM only.
+train_mm_proj_only: false
+# 是否在评估时计算 token-level 准确度
+compute_accuracy: false
+# 是否保存训练损失曲线
+plot_loss: false
+
+# FreezeArguments
+# 冻结（部分参数）微调的可训练层数。正数表示最后 n 层设置为可训练，负数表示前 n 层设置为可训练。
+freeze_trainable_layers: 2
+# 用于冻结（部分参数）微调的可训练模块的名称。使用逗号分隔多个模块。使用“all”指定所有可用模块。
+freeze_trainable_modules: all
+# 除隐藏层之外，要设置为可训练的模块的名称用于冻结（部分参数）微调。使用逗号分隔多个模块。
+freeze_extra_modules: none
+
+# LoraArguments
+# 除 LoRA 层之外，要设置为可训练的模块的名称 并保存在最终检查点中。使用逗号分隔多个模块。
+additional_target: none
+# int:LoRA 微调的比例因子（默认值：lora_rank * 2）
+lora_alpha: none
+# LoRA 微调的 dropout
+lora_dropout: 0.0
+# LoRA 微调的固有维度
+lora_rank: 8
+# 应用 LoRA 的目标模块的名称。使用逗号分隔多个模块。使用 `all` 指定所有线性模块。
+lora_target: all
+# LoRA 加学习率比（lr_B / lr_A）
+loraplus_lr_ratio: none
+# LoRA plus lora 嵌入层的学习率
+loraplus_lr_embedding: 1e-6
+# 是否对 LoRA 层使用等级稳定缩放因子
+use_rslora: false
+# 是否使用权重分解的 LoRA 方法 (DoRA)
+use_dora: false
+# 是否初始化 PiSSA 适配器
+pissa_init: false
+# PiSSA 中 FSVD 执行的迭代步骤数。使用 -1 可禁用它
+pissa_iter: 16
+# 是否将 PiSSA 适配器转换为普通 LoRA 适配器
+pissa_convert: false
+# 是否创建具有随机初始化权重的新适配器
+create_new_adapter: false
+
+# RLHFArguments
+# 偏好损失中的 beta 参数
+pref_beta: 0.1
+# DPO训练中的监督微调损失系数
+pref_ftx: 0.0
+# 要使用的 DPO 损失类型["sigmoid", "hinge", "ipo", "kto_pair", "orpo", "simpo"]
+pref_loss: sigmoid
+# cDPO 中的稳健 DPO 标签平滑参数应介于 0 到 0.5 之间
+dpo_label_smoothing: 0.0
+# KTO训练中期望损失的权重因子
+kto_chosen_weight: 1.0
+# KTO训练中不良损失的权重因子
+kto_rejected_weight: 1.0
+# SimPO 损失中的目标奖励边际项
+simpo_gamma: 0.5
+# 在 PPO 优化步骤中用于制作经验缓冲的小批次的数量。
+ppo_buffer_size: 1
+# PPO 优化步骤中要执行的时期数。
+ppo_epochs: 4
+# 在 PPO 训练中使用分数标准化。
+ppo_score_norm: false
+# PPO 训练中自适应 KL 控制的目标 KL 值
+ppo_target: 6.0
+# 在 PPO 训练中，先白化奖励，再计算优势
+ppo_whiten_rewards: false
+# str:用于 PPO 或 DPO 培训的参考模型的路径
+ref_model: none
+# str:参考模型的适配器的路径
+ref_model_adapters: none
+# int:量化参考模型的位数
+ref_model_quantization_bit: none
+# str:用于 PPO 训练的奖励模型的路径
+reward_model: none
+# str:奖励模型适配器的路径
+reward_model_adapters: none
+# int:量化奖励模型的位数
+reward_model_quantization_bit: none
+# PPO训练中奖励模型的类型。lora模型只支持lora训练["lora", "full", "api"]
+reward_model_type: lora
+
+# GaloreArguments
+# 是否使用梯度低秩投影（GaLore）
+use_galore: false
+# 要应用 GaLore 的模块的名称。使用逗号分隔多个模块。使用 `all` 指定所有线性模块
+galore_target: all
+# GaLore 梯度的等级
+galore_rank: 16
+# 更新 GaLore 投影的步骤数
+galore_update_interval: 200
+# GaLore 缩放系数
+galore_scale: 0.25
+# GaLore 投影类型 ["std", "reverse_std", "right", "left", "full"]
+galore_proj_type: std
+# 是否启用逐层更新以进一步节省内存
+galore_layerwise: false
+
+# BAdamArgument
+# 是否使用 BAdam 优化器
+use_badam: false
+# 是否使用 layer 还是 ratio BAdam 优化器["layer", "ratio"]
+badam_mode: layer
+# int:分层 BAdam 的起始块索引
+badam_start_block: none
+# 分层 BAdam 的块选择更新策略 ["ascending", "descending", "random", "fixed"]
+badam_switch_mode: ascending
+# 逐层 BAdam 块更新步骤数。使用 -1 禁用块更新
+badam_switch_interval: 50
+# ratio rise BAdam 的更新比例
+badam_update_ratio: 0.05
+# BAdam 优化器的掩码模式。`adjacent` 表示可训练参数彼此相邻，`scatter` 表示可训练参数是从权重中随机选择的。”["adjacent", "scatter"]
+badam_mask_mode: adjacent
+# BAdam 优化器的详细程度。0 表示不打印，1 表示打印块前缀，2 表示打印可训练参数。
+badam_verbose: 0
+
+# GeneratingArguments
+# 是否使用采样，否则使用贪婪解码
+do_sample: true
+# 用于调节下一个标记概率的值
+temperature: 0.95
+# 保留概率加起来等于或高于 top_p 的最可能标记的最小集合
+top_p: 0.7
+# 为 top-k 过滤保留的最高概率词汇标记的数量
+top_k: 50
+# 光束搜索的光束数。1 表示无光束搜索
+num_beams: 1
+# 生成的 token 的最大长度。它可以被 max_new_tokens 覆盖
+max_length: 1024
+# 要生成的最大令牌数，忽略提示中的令牌数
+max_new_tokens: 1024
+# 重复惩罚的参数。1.0 表示无惩罚。
+repetition_penalty: 1.0
+# 对基于光束的生成所使用的长度进行指数惩罚
+length_penalty: 1.0
+# 聊天完成时使用的默认系统消息
+default_system: none
