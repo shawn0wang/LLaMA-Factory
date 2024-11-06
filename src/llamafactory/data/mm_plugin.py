@@ -30,7 +30,7 @@ if TYPE_CHECKING:
         path: Optional[str]
         bytes: Optional[bytes]
 
-    ImageInput = Union[str, EncodedImage, ImageObject]
+    ImageInput = Union[str, bytes, EncodedImage, ImageObject]
     VideoInput = str
 
 
@@ -104,6 +104,8 @@ class BasePlugin:
         for image in images:
             if isinstance(image, str):
                 image = Image.open(image)
+            elif isinstance(image, bytes):
+                image = Image.open(BytesIO(image))
             elif isinstance(image, dict):
                 if image["bytes"] is not None:
                     image = Image.open(BytesIO(image["bytes"]))
@@ -226,6 +228,14 @@ class BasePlugin:
     ) -> Dict[str, Union[List[int], "torch.Tensor"]]:
         r"""
         Builds batched multimodal inputs for VLMs.
+
+        Arguments:
+            images: a list of image inputs, shape (num_images,)
+            videos: a list of video inputs, shape (num_videos,)
+            imglens: number of images in each sample, shape (batch_size,)
+            vidlens: number of videos in each sample, shape (batch_size,)
+            seqlens: number of tokens in each sample, shape (batch_size,)
+            processor: a processor for pre-processing images and videos
         """
         self._validate_input(images, videos)
         return {}
@@ -471,9 +481,7 @@ class PixtralPlugin(BasePlugin):
             content = message["content"]
             while IMAGE_PLACEHOLDER in content:
                 if image_input_sizes is None:
-                    raise ValueError(
-                        "The number of images does not match the number of {} tokens".format(IMAGE_PLACEHOLDER)
-                    )
+                    raise ValueError(f"The number of images does not match the number of {IMAGE_PLACEHOLDER} tokens")
 
                 image_size = image_input_sizes[0][num_image_tokens]
                 height, width = image_size
@@ -489,7 +497,7 @@ class PixtralPlugin(BasePlugin):
             message["content"] = content
 
         if len(images) != num_image_tokens:
-            raise ValueError("The number of images does not match the number of {} tokens".format(IMAGE_PLACEHOLDER))
+            raise ValueError(f"The number of images does not match the number of {IMAGE_PLACEHOLDER} tokens")
 
         return messages
 
