@@ -857,6 +857,22 @@ register_model_group(
 
 register_model_group(
     models={
+        "Llama-3.2-11B-Vision-Instruct": {
+            DownloadSource.DEFAULT: "meta-llama/Llama-3.2-11B-Vision-Instruct",
+            DownloadSource.MODELSCOPE: "LLM-Research/Llama-3.2-11B-Vision-Instruct",
+        },
+        "Llama-3.2-90B-Vision-Instruct": {
+            DownloadSource.DEFAULT: "meta-llama/Llama-3.2-90B-Vision-Instruct",
+            DownloadSource.MODELSCOPE: "LLM-Research/Llama-3.2-90B-Vision-Instruct",
+        },
+    },
+    template="mllama",
+    vision=True,
+)
+
+
+register_model_group(
+    models={
         "LLaVA-1.5-7B-Chat": {
             DownloadSource.DEFAULT: "llava-hf/llava-1.5-7b-hf",
             DownloadSource.MODELSCOPE: "swift/llava-1.5-7b-hf",
@@ -984,6 +1000,17 @@ register_model_group(
 
 register_model_group(
     models={
+        "Marco-o1-Chat": {
+            DownloadSource.DEFAULT: "AIDC-AI/Marco-o1",
+            DownloadSource.MODELSCOPE: "AIDC-AI/Marco-o1",
+        },
+    },
+    template="marco",
+)
+
+
+register_model_group(
+    models={
         "MiniCPM-2B-SFT-Chat": {
             DownloadSource.DEFAULT: "openbmb/MiniCPM-2B-sft-bf16",
             DownloadSource.MODELSCOPE: "OpenBMB/miniCPM-bf16",
@@ -1102,6 +1129,29 @@ register_model_group(
         }
     },
     template="openchat-3.6",
+)
+
+
+register_model_group(
+    models={
+        "OpenCoder-1.5B-Base": {
+            DownloadSource.DEFAULT: "infly/OpenCoder-1.5B-Base",
+            DownloadSource.MODELSCOPE: "infly/OpenCoder-1.5B-Base",
+        },
+        "OpenCoder-8B-Base": {
+            DownloadSource.DEFAULT: "infly/OpenCoder-8B-Base",
+            DownloadSource.MODELSCOPE: "infly/OpenCoder-8B-Base",
+        },
+        "OpenCoder-1.5B-Instruct": {
+            DownloadSource.DEFAULT: "infly/OpenCoder-1.5B-Instruct",
+            DownloadSource.MODELSCOPE: "infly/OpenCoder-1.5B-Instruct",
+        },
+        "OpenCoder-8B-Instruct": {
+            DownloadSource.DEFAULT: "infly/OpenCoder-8B-Instruct",
+            DownloadSource.MODELSCOPE: "infly/OpenCoder-8B-Instruct",
+        },
+    },
+    template="opencoder",
 )
 
 
@@ -1714,21 +1764,53 @@ register_model_group(
             DownloadSource.DEFAULT: "Qwen/Qwen2.5-72B-Instruct-AWQ",
             DownloadSource.MODELSCOPE: "qwen/Qwen2.5-72B-Instruct-AWQ",
         },
+        "Qwen2.5-Coder-0.5B": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-0.5B",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-0.5B",
+        },
         "Qwen2.5-Coder-1.5B": {
             DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-1.5B",
             DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-1.5B",
+        },
+        "Qwen2.5-Coder-3B": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-3B",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-3B",
         },
         "Qwen2.5-Coder-7B": {
             DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-7B",
             DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-7B",
         },
+        "Qwen2.5-Coder-14B": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-14B",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-14B",
+        },
+        "Qwen2.5-Coder-32B": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-32B",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-32B",
+        },
+        "Qwen2.5-Coder-0.5B-Instruct": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-0.5B-Instruct",
+        },
         "Qwen2.5-Coder-1.5B-Instruct": {
             DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-1.5B-Instruct",
             DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-1.5B-Instruct",
         },
+        "Qwen2.5-Coder-3B-Instruct": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-3B-Instruct",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-3B-Instruct",
+        },
         "Qwen2.5-Coder-7B-Instruct": {
             DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-7B-Instruct",
             DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-7B-Instruct",
+        },
+        "Qwen2.5-Coder-14B-Instruct": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-14B-Instruct",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-14B-Instruct",
+        },
+        "Qwen2.5-Coder-32B-Instruct": {
+            DownloadSource.DEFAULT: "Qwen/Qwen2.5-Coder-32B-Instruct",
+            DownloadSource.MODELSCOPE: "qwen/Qwen2.5-Coder-32B-Instruct",
         },
         "Qwen2.5-Math-1.5B": {
             DownloadSource.DEFAULT: "Qwen/Qwen2.5-Math-1.5B",
@@ -1838,6 +1920,16 @@ register_model_group(
             DownloadSource.MODELSCOPE: "skywork/Skywork-13B-base",
         }
     }
+)
+
+
+register_model_group(
+    models={
+        "Skywork-o1-Open-Llama-3.1-8B": {
+            DownloadSource.DEFAULT: "Skywork/Skywork-o1-Open-Llama-3.1-8B",
+        }
+    },
+    template="skywork_o1",
 )
 
 
