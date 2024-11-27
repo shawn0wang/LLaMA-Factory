@@ -1,0 +1,48 @@
+### train
+model_name_or_path: /mnt/data/shiwen.tu/hf_models/Meta-Llama-3.1-8B-Instruct
+dataset_dir: /mnt/data/wangxiaokun/O1/data/LF/train
+dataset: open_coder0,open_coder1,open_coder2,open_coder3,open_coder4,open_coder5,open_coder6,open_coder7
+output_dir: /mnt/data/wangxiaokun/O1/model/LF/llama3-8b-opencoder
+template: llama3
+cutoff_len: 4096
+preprocessing_num_workers: 32
+group_by_length: false
+overwrite_cache: true
+use_fast_tokenizer: true
+low_cpu_mem_usage: true
+ddp_backend: nccl
+ddp_timeout: 180000000
+
+do_train: true
+stage: sft
+finetuning_type: full
+num_train_epochs: 1.0
+flash_attn: auto
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 1
+bf16: true
+fp16: false
+plot_loss: true
+deepspeed: /mnt/data/wangxiaokun/LLaMA-Factory/examples/deepspeed/ds_z3_config.json
+
+seed: 42
+learning_rate: 5.0e-5
+lr_scheduler_type: cosine
+weight_decay: 0.0
+warmup_ratio: 0.03
+optim: adamw_hf
+max_grad_norm: 1
+
+save_strategy: steps
+save_steps: 10000
+save_total_limit: 3
+save_safetensors: true
+
+### log
+report_to: wandb
+run_name: llama3-opencoder
+log_level: info
+logging_dir: none
+logging_first_step: true
+logging_steps: 10
+logging_nan_inf_filter: true

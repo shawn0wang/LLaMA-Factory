@@ -1,0 +1,47 @@
+### train
+model_name_or_path: /mnt/data/wangxiaokun/HF/Qwen2.5-14B-Instruct
+dataset_dir: /mnt/data/wangxiaokun/O1/data/LF/train
+dataset: code_wxk_sft
+output_dir: /mnt/data/wangxiaokun/O1/model/LF/qwen25_14b
+template: qwen
+cutoff_len: 2048
+preprocessing_num_workers: 32
+group_by_length: false
+overwrite_cache: true
+use_fast_tokenizer: true
+low_cpu_mem_usage: true
+ddp_backend: nccl
+ddp_timeout: 180000000
+
+do_train: true
+stage: sft
+finetuning_type: full
+num_train_epochs: 1.0
+flash_attn: auto
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+bf16: true
+fp16: false
+plot_loss: true
+deepspeed: /mnt/data/wangxiaokun/LLaMA-Factory/examples/deepspeed/ds_z3_config.json
+
+seed: 42
+learning_rate: 5.0e-6
+lr_scheduler_type: cosine
+weight_decay: 0.0
+warmup_ratio: 0.03
+optim: adamw_hf
+
+save_strategy: steps
+save_steps: 1000
+save_total_limit: 3
+save_safetensors: true
+
+### log
+report_to: wandb
+run_name: qwen2514b_0011
+log_level: info
+logging_dir: none
+logging_first_step: true
+logging_steps: 10
+logging_nan_inf_filter: true

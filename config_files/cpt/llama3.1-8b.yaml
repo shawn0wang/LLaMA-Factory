@@ -1,0 +1,66 @@
+### train
+model_name_or_path: meta-llama/Meta-Llama-3.1-8B-Instruct
+tokenized_path: meta-llama/Meta-Llama-3.1-8B-Instruct
+dataset_dir: data
+dataset: none
+interleave_probs: none
+output_dir: none
+template: llama3
+cutoff_len: 1024
+preprocessing_num_workers: 32
+group_by_length: false
+overwrite_cache: true
+use_fast_tokenizer: true
+low_cpu_mem_usage: true
+ddp_backend: nccl
+ddp_timeout: 180000000
+
+stage: pt
+do_train: true
+finetuning_type: full
+deepspeed: examples/deepspeed/ds_z0_config.json
+num_train_epochs: 1.0
+flash_attn: auto
+gradient_accumulation_steps: 1
+bf16: true
+fp16: false
+plot_loss: true
+
+seed: 42
+learning_rate: 5e-5
+lr_scheduler_type: cosine
+weight_decay: 0.0
+warmup_ratio: 0.0
+
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_epsilon: 1e-8
+max_grad_norm: 1
+
+save_strategy: steps
+save_steps: 1000
+save_total_limit: 5
+load_best_model_at_end: true
+save_safetensors: true
+
+### log
+log_level: passive
+logging_dir: none
+logging_first_step: true
+logging_steps: 500
+logging_nan_inf_filter: true
+
+### eval
+eval_dataset: none
+eval_strategy: steps
+eval_on_start: true
+val_size: 0.0
+do_eval: false
+eval_steps: 500
+per_device_eval_batch_size: 8
+eval_accumulation_steps: 1
+eval_dataset: none
+eval_strategy: steps
+val_size: 0.0
+metric_for_best_model: none
+greater_is_better: true

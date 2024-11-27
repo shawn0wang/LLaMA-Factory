@@ -1,0 +1,51 @@
+### train
+model_name_or_path: /mnt/data/models/Qwen2.5-Coder-7B-Instruct
+dataset_dir: /mnt/data/wangxiaokun/O1/data/LF/train
+dataset: code_benchmark_4omini_with_answer_5k_user_prefix
+output_dir: /mnt/data/shiwen.tu/DescartesProject/model/LF/qwen_25_code_mini_with_answer_5k_userprefix
+template: qwen
+cutoff_len: 4096
+preprocessing_num_workers: 32
+group_by_length: false
+overwrite_cache: true
+use_fast_tokenizer: true
+low_cpu_mem_usage: true
+ddp_backend: nccl
+ddp_timeout: 180000000
+
+do_train: true
+stage: sft
+finetuning_type: full
+num_train_epochs: 1.0
+flash_attn: auto
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 2
+bf16: true
+fp16: false
+plot_loss: true
+deepspeed: /mnt/data/wangxiaokun/LLaMA-Factory/examples/deepspeed/ds_z2_config.json
+
+seed: 42
+learning_rate: 5.0e-5
+lr_scheduler_type: cosine
+weight_decay: 0.1
+warmup_ratio: 0.1
+optim: adamw_torch
+adam_beta1: 0.9
+adam_beta2: 0.95
+adam_epsilon: 1.0e-8
+max_grad_norm: 1
+
+save_strategy: steps
+save_steps: 1000
+save_total_limit: 3
+save_safetensors: true
+
+### log
+report_to: wandb
+run_name: qwen25_instr_mini_with_answer_5k_user_prefix
+log_level: info
+logging_dir: none
+logging_first_step: true
+logging_steps: 10
+logging_nan_inf_filter: true
